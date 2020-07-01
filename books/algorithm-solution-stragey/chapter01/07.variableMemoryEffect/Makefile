@@ -1,8 +1,8 @@
 CC = gcc
 
-SRCS = arrayCode.c
+SRCS = variableMemoryEffect.c
 
-TARGET = ArrayCode
+TARGET = VariableMemoryEffect
 
 BUILDDIR = buildDir
 
