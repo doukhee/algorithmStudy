@@ -15,6 +15,8 @@ Node *Front[10];
 Node *Rear[10];
 Node *ptrNode;
 int Buf[MAX];
+/** time calculator variable */
+clock_t StartTime, EndTime;
 
 void MakeRandomNumber(void);
 void RadixSort(void);
@@ -161,8 +163,11 @@ int main(){
 
     MakeRandomNumber();
     DisplayBuffer();
+    StartTime = clock();
     RadixSort();
+    EndTime = clock();
     printf("\r\n\r\n");
+    printf("result Time : %f", (float)(EndTime - StartTime)/CLOCKS_PER_SEC);
     printf("\r\n");
     return 0;
 }

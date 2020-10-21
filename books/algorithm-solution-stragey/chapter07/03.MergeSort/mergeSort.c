@@ -2,31 +2,28 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX             100
-#define TRUE            1
-#define FALSE           0
+#define MAX         100
+#define TRUE        1
+#define FALSE       0
 
-void MakeRandomNumber();
-void QuickSort(int data[], int , int);
+void MakeRandomNumber(void);
+void MergeSort(int[], int, int);
 void DisplayBuffer(void);
 int IsNumberExit(int, int);
 
 int Buf[MAX];
+int temp[MAX];
 /** time calculator variable */
 clock_t StartTime, EndTime;
-    
-    
 
-void MakeRandomNumber(){
+void MakeRandomNumber(void){
     int i, Num;
     i = 1;
     srand((unsigned)time(NULL));
     Buf[0] = 100;
 
-
     while(i < MAX){
         Num = rand() % MAX;
-
         if(!IsNumberExit(Num, i)){
             Buf[i] = Num;
             i++;
@@ -34,30 +31,25 @@ void MakeRandomNumber(){
     }
 }
 
-
-void QuickSort(int data[], int left, int right){
-    int num, i, j, temp;
+void MergeSort(int data[], int left, int right){
+    int i, j, k, middle;
     if(right > left){
-        num = data[right];
-        i = left - 1;
-        j = right;
+        middle = (left + right) / 2;
+        MergeSort(data, left, middle);
+        MergeSort(data, middle + 1, right);
 
-        for(;;){
-            while(data[++i] < num);
-            while(data[--j] > num);
-            if(i >= j){
-                break;
-                }
-            temp = data[i];
-            data[i] = data[j];
-            data[j] = temp;
+        for(i = middle + 1; i > left; i--){
+            temp[i - 1] = data[i - 1];
         }
-        temp = data[i];
-        data[i] = data[right];
-        data[right] = temp;
 
-        QuickSort(data, left, i - 1);
-        QuickSort(data, i + 1, right);
+        for(j = middle; j < right; j++){
+            temp[right + middle - j] = data[j + 1];
+        }
+
+        for(k = left; k <= right; k++){
+            data[k] = (temp[i] < temp[j]) ? temp[i++] : temp[j--];
+        }
+
     }
 }
 
@@ -84,15 +76,14 @@ int IsNumberExit(int number, int index){
 }
 
 int main(){
-    printf("Init Data \r\n");
+    printf("Sort Data Init \r\n");
     MakeRandomNumber();
     DisplayBuffer();
-    printf("Sort done \r\n");
+    printf("Sort Done \r\n");
     StartTime = clock();
-    QuickSort(Buf, 0, MAX - 1);
+    MergeSort(Buf, 0, MAX - 1);
     EndTime = clock();
     DisplayBuffer();
-    printf("\r\n");
     printf("result Time : %f", (float)(EndTime - StartTime)/CLOCKS_PER_SEC);
     printf("\r\n");
     return 0;

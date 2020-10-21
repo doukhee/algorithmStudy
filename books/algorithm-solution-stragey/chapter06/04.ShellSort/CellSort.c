@@ -13,6 +13,9 @@ void DisplayBuffer(void);
 int IsNumberExit(int, int);
 
 int Buf[MAX];
+/** time calculator variable */
+clock_t StartTime, EndTime;
+    
 
 void MakeRandomNumber(){
     int i, Num;
@@ -76,9 +79,12 @@ int main(){
     MakeRandomNumber();
     DisplayBuffer();
     printf("Sort done number \r\n");
-
+    StartTime = clock();
     ShellSort();
+    EndTime = clock();
     DisplayBuffer();
+    printf("\r\n");
+    printf("result Time : %f", (float)(EndTime - StartTime)/CLOCKS_PER_SEC);
     printf("\r\n");
     return 0;
 }
